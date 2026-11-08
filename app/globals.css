@@ -9,6 +9,7 @@
   --gold: #f5c542;
   --cream: #f6f1df;
   --shadow: #6d4aa8;
+  --shadow-light: #b79ae6;
 }
 
 @theme inline {
@@ -20,6 +21,7 @@
   --color-gold: var(--gold);
   --color-cream: var(--cream);
   --color-shadow: var(--shadow);
+  --color-shadow-light: var(--shadow-light);
   --font-display: var(--font-cinzel);
   --font-body: var(--font-inter);
 }

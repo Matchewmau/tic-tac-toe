@@ -13,14 +13,14 @@ describe('GameBoard', () => {
     expect(onMove).toHaveBeenCalledWith(4);
   });
 
-  it('labels occupied cells and disables them', () => {
+  it('labels occupied cells and blocks them', () => {
     const onMove = vi.fn();
     const board = createBoard();
     board[0] = 'hero';
     render(<GameBoard board={board} onMove={onMove} />);
 
     const cell = screen.getByRole('button', { name: 'Row 1, column 1, Hero' });
-    expect(cell).toBeDisabled();
+    expect(cell).toHaveAttribute('aria-disabled', 'true');
     fireEvent.click(cell);
     expect(onMove).not.toHaveBeenCalled();
   });

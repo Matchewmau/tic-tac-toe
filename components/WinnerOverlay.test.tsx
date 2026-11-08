@@ -13,6 +13,22 @@ describe('WinnerOverlay', () => {
     expect(screen.getByText('Draw')).toBeInTheDocument();
   });
 
+  it('moves focus into the dialog when it opens', () => {
+    render(<WinnerOverlay result={{ type: 'draw' }} onPlayAgain={vi.fn()} />);
+    expect(screen.getByRole('dialog')).toHaveFocus();
+  });
+
+  it('focuses Play again on a match win', () => {
+    render(
+      <WinnerOverlay
+        result={{ type: 'win', player: 'hero', line: [0, 1, 2] }}
+        matchWinner="hero"
+        onPlayAgain={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Play again' })).toHaveFocus();
+  });
+
   it('announces a match win and offers play again', () => {
     const onPlayAgain = vi.fn();
     render(

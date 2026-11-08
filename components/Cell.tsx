@@ -24,14 +24,16 @@ export function Cell({
   const row = Math.floor(index / 3) + 1;
   const column = (index % 3) + 1;
   const state = value ? PLAYER_LABELS[value] : 'empty';
-  const isDisabled = disabled || value !== null;
+  const isOccupied = value !== null;
+  const isDisabled = disabled || isOccupied;
 
   return (
     <button
       type="button"
       aria-label={`Row ${row}, column ${column}, ${state}`}
+      aria-disabled={isDisabled ? 'true' : undefined}
       data-winning={winning ? 'true' : undefined}
-      disabled={isDisabled}
+      disabled={disabled}
       onClick={() => {
         if (!isDisabled) {
           onSelect(index);

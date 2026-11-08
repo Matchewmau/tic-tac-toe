@@ -39,7 +39,7 @@ export function Scoreboard({ scores, round, onReset }: ScoreboardProps) {
                   'font-display text-[0.65rem] uppercase tracking-[0.2em]',
                   player === 'hero'
                     ? 'text-leaf-light'
-                    : 'text-[var(--shadow)]',
+                    : 'text-[var(--shadow-light)]',
                 ].join(' ')}
               >
                 {PLAYER_NAMES[player]}
@@ -62,7 +62,7 @@ export function Scoreboard({ scores, round, onReset }: ScoreboardProps) {
       </div>
 
       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 px-1">
-        <p className="text-xs text-cream/45">
+        <p className="text-xs text-cream/70">
           First to 3 wins claims the Triforce
         </p>
         <button

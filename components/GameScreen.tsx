@@ -94,7 +94,7 @@ export function GameScreen() {
         <h1 className="text-balance font-display text-2xl font-semibold tracking-wide text-cream sm:text-4xl">
           Zelda Tic-Tac-Toe
         </h1>
-        <p className="max-w-sm text-balance text-sm text-cream/55">
+        <p className="max-w-sm text-balance text-sm text-cream/70">
           Hero and Shadow meet in the forest clearing. Win three rounds to claim
           the Triforce.
         </p>

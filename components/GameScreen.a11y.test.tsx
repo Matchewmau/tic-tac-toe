@@ -57,6 +57,21 @@ describe('GameScreen accessibility', () => {
     expect(cell).toHaveFocus();
   });
 
+  it('keeps focus on a cell after it is played', () => {
+    render(<GameScreen />);
+    const cell = screen.getByRole('button', { name: 'Row 2, column 2, empty' });
+    cell.focus();
+    fireEvent.click(cell);
+
+    const played = screen.getByRole('button', {
+      name: 'Row 2, column 2, Hero',
+    });
+    expect(played).toBe(cell);
+    expect(played).toHaveAttribute('aria-disabled', 'true');
+    expect(played).not.toBeDisabled();
+    expect(played).toHaveFocus();
+  });
+
   it('skips confetti when reduced motion is preferred', () => {
     mockReducedMotion(true);
     render(<GameScreen />);

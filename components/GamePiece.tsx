@@ -26,7 +26,7 @@ export function GamePiece({ player, className = '' }: GamePieceProps) {
     <svg
       viewBox="0 0 64 64"
       aria-hidden="true"
-      className={`text-[var(--shadow)] drop-shadow-[0_0_10px_rgba(109,74,168,0.5)] ${className}`}
+      className={`text-[var(--shadow-light)] drop-shadow-[0_0_10px_rgba(183,154,230,0.5)] ${className}`}
       fill="none"
     >
       <path
