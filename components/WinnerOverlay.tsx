@@ -1,0 +1,90 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import type { Player, RoundResult } from '@/lib/game';
+
+interface WinnerOverlayProps {
+  result: RoundResult | null;
+  matchWinner?: Player | null;
+  onPlayAgain: () => void;
+}
+
+const PLAYER_NAMES = {
+  hero: 'Hero',
+  shadow: 'Shadow',
+} as const;
+
+export function WinnerOverlay({ result, matchWinner = null, onPlayAgain }: WinnerOverlayProps) {
+  if (!result) {
+    return null;
+  }
+
+  const isMatchWin =
+    result.type === 'win' && matchWinner !== null && result.player === matchWinner;
+  const title =
+    result.type === 'draw'
+      ? 'Draw'
+      : isMatchWin
+        ? `${PLAYER_NAMES[result.player]} claims the Triforce!`
+        : `${PLAYER_NAMES[result.player]} wins!`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 px-4 backdrop-blur-sm"
+    >
+      <motion.div
+        role="dialog"
+        aria-label="Round result"
+        initial={{ opacity: 0, scale: 0.9, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+        className={[
+          'relative w-full max-w-sm overflow-hidden rounded-3xl border px-6 py-8 text-center shadow-[0_30px_80px_rgba(0,0,0,0.6)]',
+          isMatchWin
+            ? 'border-gold/70 bg-gradient-to-b from-[#2b2410] via-moss to-forest'
+            : 'border-cream/15 bg-gradient-to-b from-moss to-forest',
+        ].join(' ')}
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-1 rounded-[1.35rem] border border-gold/15"
+        />
+
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 64 64"
+          className="mx-auto mb-4 h-12 w-12 text-gold drop-shadow-[0_0_16px_rgba(245,197,66,0.55)]"
+          fill="currentColor"
+        >
+          <path d="M32 5 46 29H18Z" />
+          <path d="M17 33 31 57H3Z" />
+          <path d="M47 33 61 57H33Z" />
+        </svg>
+
+        <p className="font-display text-2xl font-semibold leading-tight text-cream sm:text-3xl">
+          {title}
+        </p>
+
+        {result.type === 'draw' ? (
+          <p className="mt-2 text-sm text-cream/60">No points this round — the forest waits.</p>
+        ) : isMatchWin ? (
+          <p className="mt-2 text-sm text-cream/60">The match is won. The legend is yours.</p>
+        ) : (
+          <p className="mt-2 text-sm text-cream/60">The next round begins shortly.</p>
+        )}
+
+        {isMatchWin ? (
+          <button
+            type="button"
+            onClick={onPlayAgain}
+            className="mt-6 rounded-full border border-gold/70 bg-gold/15 px-6 py-2 font-display text-sm uppercase tracking-[0.16em] text-gold transition hover:bg-gold/25 focus-visible:bg-gold/25"
+          >
+            Play again
+          </button>
+        ) : null}
+      </motion.div>
+    </motion.div>
+  );
+}
