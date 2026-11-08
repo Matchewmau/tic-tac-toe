@@ -12,15 +12,31 @@ import { Triforce } from './Triforce';
 import { TurnIndicator } from './TurnIndicator';
 import { WinnerOverlay } from './WinnerOverlay';
 
+const PLAYER_NAMES = {
+  hero: 'Hero',
+  shadow: 'Shadow',
+} as const;
+
 export function GameScreen() {
   const game = useGame();
   const { muted, toggleMuted, playMove, playWin } = useSound();
   const lastResult = useRef<RoundResult | null>(null);
 
   const matchWinner =
-    game.phase === 'matchOver' && game.result?.type === 'win' ? game.result.player : null;
+    game.phase === 'matchOver' && game.result?.type === 'win'
+      ? game.result.player
+      : null;
   const winLine = game.result?.type === 'win' ? game.result.line : null;
   const locked = game.phase !== 'playing';
+
+  const liveMessage =
+    game.phase === 'matchOver' && game.result?.type === 'win'
+      ? `Match over. ${PLAYER_NAMES[game.result.player]} claims the Triforce.`
+      : game.result?.type === 'win'
+        ? `Round ${game.round}. ${PLAYER_NAMES[game.result.player]} wins.`
+        : game.result?.type === 'draw'
+          ? `Round ${game.round}. Draw.`
+          : `Round ${game.round}. ${PLAYER_NAMES[game.currentPlayer]}'s turn.`;
 
   useEffect(() => {
     const result = game.result;
@@ -64,22 +80,31 @@ export function GameScreen() {
   };
 
   return (
-    <main className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center gap-5 px-4 py-8 sm:py-12">
+    <main className="relative mx-auto flex min-h-dvh w-full max-w-5xl flex-col items-center justify-center gap-5 px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:py-12">
+      <p role="status" aria-live="polite" className="sr-only">
+        {liveMessage}
+      </p>
+
       <header className="relative flex w-full max-w-md flex-col items-center gap-2 text-center">
         <div className="absolute right-0 top-0">
           <SoundToggle muted={muted} onToggle={toggleMuted} />
         </div>
 
         <Triforce className="h-9 w-9 text-gold drop-shadow-[0_0_18px_rgba(245,197,66,0.45)]" />
-        <h1 className="font-display text-3xl font-semibold tracking-wide text-cream sm:text-4xl">
+        <h1 className="text-balance font-display text-2xl font-semibold tracking-wide text-cream sm:text-4xl">
           Zelda Tic-Tac-Toe
         </h1>
-        <p className="max-w-sm text-sm text-cream/55">
-          Hero and Shadow meet in the forest clearing. Win three rounds to claim the Triforce.
+        <p className="max-w-sm text-balance text-sm text-cream/55">
+          Hero and Shadow meet in the forest clearing. Win three rounds to claim
+          the Triforce.
         </p>
       </header>
 
-      <Scoreboard scores={game.scores} round={game.round} onReset={game.resetMatch} />
+      <Scoreboard
+        scores={game.scores}
+        round={game.round}
+        onReset={game.resetMatch}
+      />
 
       <TurnIndicator currentPlayer={game.currentPlayer} phase={game.phase} />
 

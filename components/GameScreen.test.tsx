@@ -19,7 +19,7 @@ afterEach(() => {
 describe('GameScreen', () => {
   it('shows scores, round, and whose turn it is', () => {
     render(<GameScreen />);
-    expect(screen.getByText(/Round 1/)).toBeInTheDocument();
+    expect(screen.getByText('Round 1')).toBeInTheDocument();
     expect(screen.getByText("Hero's turn")).toBeInTheDocument();
     expect(screen.getByLabelText('Hero score')).toHaveTextContent('0');
     expect(screen.getByLabelText('Shadow score')).toHaveTextContent('0');
@@ -27,8 +27,12 @@ describe('GameScreen', () => {
 
   it('places a mark and alternates the turn', () => {
     render(<GameScreen />);
-    fireEvent.click(screen.getByRole('button', { name: 'Row 2, column 2, empty' }));
-    expect(screen.getByRole('button', { name: 'Row 2, column 2, Hero' })).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Row 2, column 2, empty' }),
+    );
+    expect(
+      screen.getByRole('button', { name: 'Row 2, column 2, Hero' }),
+    ).toBeInTheDocument();
     expect(screen.getByText("Shadow's turn")).toBeInTheDocument();
   });
 
@@ -53,6 +57,6 @@ describe('GameScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: 'New match' }));
     expect(confirm).toHaveBeenCalledTimes(2);
     expect(screen.getByLabelText('Hero score')).toHaveTextContent('0');
-    expect(screen.getByText(/Round 1/)).toBeInTheDocument();
+    expect(screen.getByText('Round 1')).toBeInTheDocument();
   });
 });

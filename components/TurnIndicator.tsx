@@ -12,15 +12,14 @@ export function TurnIndicator({ currentPlayer, phase }: TurnIndicatorProps) {
   const name = currentPlayer === 'hero' ? 'Hero' : 'Shadow';
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-forest/60 px-4 py-1.5 shadow-[0_0_24px_rgba(0,0,0,0.35)]"
-    >
+    <div className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-forest/60 px-4 py-1.5 shadow-[0_0_24px_rgba(0,0,0,0.35)]">
       {isPlaying ? (
         <GamePiece player={currentPlayer} className="h-5 w-5" />
       ) : (
-        <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold shadow-[0_0_10px_3px_rgba(245,197,66,0.45)]" />
+        <span
+          aria-hidden="true"
+          className="h-2 w-2 rounded-full bg-gold shadow-[0_0_10px_3px_rgba(245,197,66,0.45)]"
+        />
       )}
       <span className="font-display text-sm tracking-wide text-cream">
         {isPlaying ? `${name}'s turn` : 'Round complete'}

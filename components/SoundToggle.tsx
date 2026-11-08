@@ -12,7 +12,7 @@ export function SoundToggle({ muted, onToggle }: SoundToggleProps) {
       aria-pressed={muted}
       aria-label={muted ? 'Enable sound' : 'Mute sound'}
       onClick={onToggle}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream/15 bg-forest/60 text-cream/70 shadow-[0_0_20px_rgba(0,0,0,0.3)] transition hover:border-gold/60 hover:text-gold focus-visible:border-gold/60 focus-visible:text-gold"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cream/15 bg-forest/60 text-cream/70 shadow-[0_0_20px_rgba(0,0,0,0.3)] transition hover:border-gold/60 hover:text-gold focus-visible:border-gold/60 focus-visible:text-gold"
     >
       <svg
         aria-hidden="true"
@@ -24,7 +24,11 @@ export function SoundToggle({ muted, onToggle }: SoundToggleProps) {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5Z" fill="currentColor" stroke="none" />
+        <path
+          d="M4 9.5v5h3.5L12 18V6L7.5 9.5Z"
+          fill="currentColor"
+          stroke="none"
+        />
         {muted ? (
           <>
             <path d="m16.5 9.5 5 5" />
