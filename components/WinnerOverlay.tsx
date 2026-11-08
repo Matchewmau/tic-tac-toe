@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { Player, RoundResult } from '@/lib/game';
+import { Triforce } from './Triforce';
 
 interface WinnerOverlayProps {
   result: RoundResult | null;
@@ -15,6 +16,8 @@ const PLAYER_NAMES = {
 } as const;
 
 export function WinnerOverlay({ result, matchWinner = null, onPlayAgain }: WinnerOverlayProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   if (!result) {
     return null;
   }
@@ -32,8 +35,36 @@ export function WinnerOverlay({ result, matchWinner = null, onPlayAgain }: Winne
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-forest/70 px-4 backdrop-blur-sm"
     >
+      {result.type === 'win' ? (
+        prefersReducedMotion ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+          >
+            <Triforce className="h-72 w-72 text-gold/15 sm:h-96 sm:w-96" />
+          </div>
+        ) : (
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+              opacity: [0, 0.55, 0.12, 0.45, 0.14],
+              scale: [0.5, 1.12, 0.96, 1.08, 1],
+            }}
+            transition={{
+              duration: 0.8,
+              times: [0, 0.25, 0.5, 0.75, 1],
+              repeat: 1,
+            }}
+          >
+            <Triforce className="h-72 w-72 text-gold/70 sm:h-96 sm:w-96" />
+          </motion.div>
+        )
+      ) : null}
+
       <motion.div
         role="dialog"
         aria-label="Round result"
@@ -41,7 +72,7 @@ export function WinnerOverlay({ result, matchWinner = null, onPlayAgain }: Winne
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 260, damping: 22 }}
         className={[
-          'relative w-full max-w-sm overflow-hidden rounded-3xl border px-6 py-8 text-center shadow-[0_30px_80px_rgba(0,0,0,0.6)]',
+          'relative z-10 w-full max-w-sm overflow-hidden rounded-3xl border px-6 py-8 text-center shadow-[0_30px_80px_rgba(0,0,0,0.6)]',
           isMatchWin
             ? 'border-gold/70 bg-gradient-to-b from-[#2b2410] via-moss to-forest'
             : 'border-cream/15 bg-gradient-to-b from-moss to-forest',
@@ -52,16 +83,7 @@ export function WinnerOverlay({ result, matchWinner = null, onPlayAgain }: Winne
           className="pointer-events-none absolute inset-1 rounded-[1.35rem] border border-gold/15"
         />
 
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 64 64"
-          className="mx-auto mb-4 h-12 w-12 text-gold drop-shadow-[0_0_16px_rgba(245,197,66,0.55)]"
-          fill="currentColor"
-        >
-          <path d="M32 5 46 29H18Z" />
-          <path d="M17 33 31 57H3Z" />
-          <path d="M47 33 61 57H33Z" />
-        </svg>
+        <Triforce className="mx-auto mb-4 h-12 w-12 text-gold drop-shadow-[0_0_16px_rgba(245,197,66,0.55)]" />
 
         <p className="font-display text-2xl font-semibold leading-tight text-cream sm:text-3xl">
           {title}
