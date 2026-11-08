@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zelda Tic-Tac-Toe
 
-## Getting Started
+A forest-themed, pass-and-play tic-tac-toe match — first to three round wins claims the Triforce.
 
-First, run the development server:
+## Features
+
+- **Two-player pass-and-play** on a hand-carved wooden board, with Hero and Shadow marks.
+- **First to three round wins** takes the match; the starting player alternates every round.
+- **Round flow** with a winner banner, automatic next-round advance, and a final "Play again" action.
+- **Celebrations** with canvas confetti and a pulsing Triforce when a round or match is won.
+- **Synthesized sound effects** for moves and victories, with a persistent mute toggle.
+- **Accessible by design**: native button cells, a single live region for turn/result announcements, visible gold focus rings, and reduced-motion support.
+- **Responsive layout** that stacks the scoreboard and keeps the board square on small screens.
+
+## Getting started
+
+Requires Node.js 22 or newer (Next.js 16 and Tailwind CSS 4 need a current runtime).
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm test` | Run the Vitest suite once |
+| `npm run test:watch` | Run Vitest in watch mode |
+| `npm run lint` | Lint the project with ESLint |
+| `npm run build` | Create a production build |
+| `npm run format` | Format the project with Prettier |
 
-## Learn More
+## Tech decisions
 
-To learn more about Next.js, take a look at the following resources:
+- **Pure rules, separate from React.** `lib/game.ts` contains board creation, win-line detection, draw detection, and immutable move application. All eight winning lines are covered for both players.
+- **Reducer-driven match state.** `hooks/useGame.ts` owns scoring, alternating starters, the first-to-three finish, and the 2.6-second auto-advance timer between rounds. Side effects stay in the hook; the rules stay pure.
+- **Original art and audio.** Every mark, leaf, Triforce, and icon is an inline SVG drawn for this project. Sound effects are synthesized with the Web Audio API. No Nintendo art, music, or other assets are bundled.
+- **Test-first component coverage.** Vitest and React Testing Library cover the rules, reducer timers, board interaction, score flow, celebration wiring, and reduced-motion behavior.
+- **Small, client-only surface.** The page is a server component that renders one client game screen; there is no backend, persistence, or account system.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Intentionally out of scope
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- A CPU opponent or difficulty levels.
+- Online multiplayer or shared rooms.
+- Score persistence across reloads or accounts.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is an unofficial fan-made project built as a UI exercise.
