@@ -2,6 +2,8 @@
 
 A forest-themed, pass-and-play tic-tac-toe match — first to three round wins claims the Triforce.
 
+**[Play the live demo →](https://tic-tac-toe-eight-topaz-50.vercel.app)**
+
 ## Features
 
 - **Two-player pass-and-play** on a hand-carved wooden board, with Hero and Shadow marks.
@@ -25,14 +27,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Scripts
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm test` | Run the Vitest suite once |
-| `npm run test:watch` | Run Vitest in watch mode |
-| `npm run lint` | Lint the project with ESLint |
-| `npm run build` | Create a production build |
-| `npm run format` | Format the project with Prettier |
+| Command              | Purpose                          |
+| -------------------- | -------------------------------- |
+| `npm run dev`        | Start the development server     |
+| `npm test`           | Run the Vitest suite once        |
+| `npm run test:watch` | Run Vitest in watch mode         |
+| `npm run lint`       | Lint the project with ESLint     |
+| `npm run build`      | Create a production build        |
+| `npm run format`     | Format the project with Prettier |
 
 ## Tech decisions
 
